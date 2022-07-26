@@ -28,6 +28,7 @@ class App extends Component {
     const nextPage = this.state.page;
 
     if (previousInput !== nextInput || previousPage !== nextPage) {
+      console.log('abcdsdsdaasfdgtuijdsgujhgsdnf');
       this.setState({ isLoading: true });
       PixaBay.fetchImages(nextInput, nextPage)
         .then(({ hits }) => {
@@ -48,7 +49,7 @@ class App extends Component {
     }
   }
   onSearch = searchInput => {
-    this.setState({ searchInput, images: [], page: 1, error: null });
+    this.setState({ searchInput, page: 1, error: null });
   };
   loadMore = () => {
     this.setState(prevState => ({
@@ -71,7 +72,7 @@ class App extends Component {
   };
   modalWindowOpen = event => {
     this.setState(() => ({
-      modalImage: event.target.dataset.largeimg,
+      modalImage: event.target.src,
       alt: event.target.alt,
     }));
     this.modalWindowToggle();
@@ -84,17 +85,16 @@ class App extends Component {
   };
 
   render() {
-    const { images, error, modalImage, showModal, isLoading, alt } = this.state;
+    const { images, error, modalImage, showModal, isLoading, alt, page } =
+      this.state;
     return (
       <div className={styles.App}>
         <Searchbar onSubmit={this.onSearch} />
         {isLoading && <LoaderSpinner />}
         {images.length > 0 && !error && (
-          <>
-            <ImageGallery onClick={this.modalWindowOpen} images={images} />
-            <Button loadImages={this.loadMore} />
-          </>
+          <ImageGallery onClick={this.modalWindowOpen} images={images} />
         )}
+        {images.length >= 12 * page && <Button loadImages={this.loadMore} />}
         {showModal && (
           <ModalWindow
             onClose={this.modalWindowClose}

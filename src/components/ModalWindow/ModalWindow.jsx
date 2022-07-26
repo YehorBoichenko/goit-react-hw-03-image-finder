@@ -1,8 +1,5 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import styles from '../ModalWindow/ModalWindow.module.css';
-import { createPortal } from 'react-dom';
-
-const modalWindowRoot = document.querySelector('#modal-root');
 
 export default class ModalWindow extends Component {
   state = {
@@ -28,13 +25,12 @@ export default class ModalWindow extends Component {
   };
   render() {
     const { src, alt } = this.props;
-    return createPortal(
-      <div className={styles.overlay} onClick={this.backDropClick}>
-        <div className={styles.modal}>
-          <img src={src} alt={alt} />
+    return (
+      <div className={styles.backdrop} onClick={this.backDropClick}>
+        <div className={styles.modalOpen}>
+          <img className={styles.modalImg} src={src} alt={alt} />
         </div>
-      </div>,
-      modalWindowRoot
+      </div>
     );
   }
 }

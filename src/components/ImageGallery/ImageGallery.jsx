@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 
 export default function ImageGallery({ images, onClick }) {
   return (
-    <ul className={styles.ImageGallery}>
+    <ul className={styles.imageGallery}>
       {images.map(({ id, tags, webformatURL, largeImageURL }) => {
         return (
           <ImageGalleryItem
             key={id}
             tags={tags}
             src={webformatURL}
-            largeImg={largeImageURL}
+            largeimg={largeImageURL}
             openModalWindow={onClick}
           />
         );

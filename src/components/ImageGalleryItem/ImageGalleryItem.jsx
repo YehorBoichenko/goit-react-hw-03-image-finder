@@ -9,12 +9,12 @@ export default function ImageGalleryItem({
   openModalWindow,
 }) {
   return (
-    <li className={styles.ImageGalleryItem} onClick={openModalWindow}>
+    <li className={styles.imageGalleryItem} onClick={openModalWindow}>
       <img
         src={src}
         alt={tags}
         largeimg={largeimg}
-        className={styles.GallerItemImage}
+        className={styles.galleryItem}
       />
     </li>
   );

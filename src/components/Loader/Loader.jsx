@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styles from '../Loader/Loader.module.css';
 import { BallTriangle } from 'react-loader-spinner';
-// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 export default class LoaderSpinner extends Component {
   state = {};
