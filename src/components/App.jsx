@@ -28,7 +28,6 @@ class App extends Component {
     const nextPage = this.state.page;
 
     if (previousInput !== nextInput || previousPage !== nextPage) {
-      console.log('abcdsdsdaasfdgtuijdsgujhgsdnf');
       this.setState({ isLoading: true });
       PixaBay.fetchImages(nextInput, nextPage)
         .then(({ hits }) => {
