@@ -24,10 +24,9 @@ class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     const previousInput = prevState.searchInput;
     const nextInput = this.state.searchInput;
-    const previousPage = prevState.page;
     const nextPage = this.state.page;
 
-    if (previousInput !== nextInput || previousPage !== nextPage) {
+    if (previousInput !== nextInput) {
       this.setState({ isLoading: true });
       PixaBay.fetchImages(nextInput, nextPage)
         .then(({ hits }) => {
@@ -37,25 +36,38 @@ class App extends Component {
               error: `could not find image by request ${nextInput}`,
             });
           }
-          this.setState(({ images, page }) => ({
-            images: [...images, ...hits],
-            page: page,
+          this.setState({
+            images: hits,
+            page: 1,
             status: 'resolved',
-          }));
+          });
         })
         .catch(error => this.setState({ error, status: 'rejected' }))
         .finally(() => this.setState({ isLoading: false }));
     }
   }
+  onLoadMore = () => {
+    PixaBay.fetchImages(this.state.searchInput, this.state.page + 1).then(
+      ({ hits }) => {
+        if (hits.length === 0) {
+          return this.setState({
+            status: 'rejected',
+            error: `could not find image by request ${this.state.searchInput}`,
+          });
+        }
+        this.setState(({ images, page }) => ({
+          images: [...images, ...hits],
+          page: page + 1,
+          status: 'resolved',
+        }));
+      }
+    );
+  };
+
   onSearch = searchInput => {
     this.setState({ searchInput, page: 1, error: null });
   };
-  loadMore = () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1,
-    }));
-    this.scroll();
-  };
+
   scroll = () => {
     setTimeout(() => {
       window.scrollTo({
@@ -93,7 +105,7 @@ class App extends Component {
         {images.length > 0 && !error && (
           <ImageGallery onClick={this.modalWindowOpen} images={images} />
         )}
-        {images.length >= 12 * page && <Button loadImages={this.loadMore} />}
+        {images.length >= 12 * page && <Button loadImages={this.onLoadMore} />}
         {showModal && (
           <ModalWindow
             onClose={this.modalWindowClose}
