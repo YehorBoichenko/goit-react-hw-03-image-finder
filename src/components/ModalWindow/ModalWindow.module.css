@@ -10,6 +10,7 @@ position: fixed;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 1200;
+    overflow: hidden;
 }
 
 .modalOpen{
@@ -23,7 +24,7 @@ max-width: calc(100vw - 100px);
 }
 
 .modalImg {
-  margin: auto auto;
-  max-width: 90vw;
-  max-height: 90vh;
+  width: 100%;
+    height: auto;
+    object-fit: cover;
 }
