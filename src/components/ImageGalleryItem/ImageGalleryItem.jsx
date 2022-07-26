@@ -6,14 +6,14 @@ export default function ImageGalleryItem({
   tags,
   src,
   largeimg,
-  openModalWindow,
+  onClickImage,
 }) {
   return (
-    <li className={styles.imageGalleryItem} onClick={openModalWindow}>
+    <li className={styles.imageGalleryItem}>
       <img
+        onClick={() => onClickImage(largeimg)}
         src={src}
         alt={tags}
-        largeimg={largeimg}
         className={styles.galleryItem}
       />
     </li>
@@ -23,6 +23,6 @@ export default function ImageGalleryItem({
 ImageGalleryItem.propTypes = {
   tags: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
-  largeimg: PropTypes.string,
-  openModalWindow: PropTypes.func.isRequired,
+  largeimg: PropTypes.string.isRequired,
+  onClickImage: PropTypes.func.isRequired,
 };

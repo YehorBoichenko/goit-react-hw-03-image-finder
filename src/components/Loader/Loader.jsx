@@ -3,7 +3,6 @@ import styles from '../Loader/Loader.module.css';
 import { BallTriangle } from 'react-loader-spinner';
 
 export default class LoaderSpinner extends Component {
-  state = {};
   render() {
     return (
       <div className={styles.loader}>

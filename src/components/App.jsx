@@ -17,8 +17,7 @@ class App extends Component {
     isLoading: false,
     error: null,
     showModal: false,
-    modalImage: '',
-    alt: null,
+    largeimg: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -76,42 +75,30 @@ class App extends Component {
       });
     }, 1000);
   };
-  modalWindowToggle = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
-  modalWindowOpen = event => {
+
+  modalWindowOpen = largeimg => {
     this.setState(() => ({
-      modalImage: event.target.src,
-      alt: event.target.alt,
+      largeimg: largeimg,
     }));
-    this.modalWindowToggle();
   };
   modalWindowClose = () => {
     this.setState({
-      modalImage: '',
+      largeimg: '',
     });
-    this.modalWindowToggle();
   };
 
   render() {
-    const { images, error, modalImage, showModal, isLoading, alt, page } =
-      this.state;
+    const { images, error, largeimg, isLoading, page } = this.state;
     return (
       <div className={styles.App}>
         <Searchbar onSubmit={this.onSearch} />
         {isLoading && <LoaderSpinner />}
         {images.length > 0 && !error && (
-          <ImageGallery onClick={this.modalWindowOpen} images={images} />
+          <ImageGallery onClickImage={this.modalWindowOpen} images={images} />
         )}
         {images.length >= 12 * page && <Button loadImages={this.onLoadMore} />}
-        {showModal && (
-          <ModalWindow
-            onClose={this.modalWindowClose}
-            src={modalImage}
-            alt={alt}
-          />
+        {largeimg && (
+          <ModalWindow onClose={this.modalWindowClose} src={largeimg} />
         )}
         {error && <p className={styles.error}>{error}</p>}
         <ToastContainer autoClose={3000} />
